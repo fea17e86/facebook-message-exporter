@@ -1,0 +1,19 @@
+{
+  "name": "facebook-message-exporter",
+  "version": "1.0.0",
+  "description": "facebook message exporter",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fea17e86/facebook-message-exporter.git"
+  },
+  "author": "fea17e86",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fea17e86/facebook-message-exporter/issues"
+  },
+  "homepage": "https://github.com/fea17e86/facebook-message-exporter#readme"
+}
