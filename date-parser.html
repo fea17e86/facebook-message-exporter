@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>date-parser</title>
+    <script src="Moment.js"></script>
+    <script src="facebook-date-parser.js"></script>
+  </head>
+  <body>
+    <input id="dateString" type="text" placeholder="Date string" value="17. August 2014 um 19:08 UTC+02">
+    <button onClick="parseDate();">parse</button>
+    <input id="date" type="datetime-local" value="today">
+    <script>
+      function parseDate()  {
+        var dateString = document.getElementById('dateString').value;
+        console.log(dateString);
+        publish(dateString, FBDP.parse(dateString));
+      }
+
+      function publish(string, d) {
+        //var format = 'YYYY-MM-DDTHH:mm:ss';
+        console.log(d.utcDate(), d.utcString(), d.json());
+        document.getElementById('date').value = d.string();
+      }
+    </script>
+  </body>
+</html>

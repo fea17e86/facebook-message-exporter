@@ -1,5 +1,6 @@
-var fs = require('fs')
-var cheerio = require('cheerio')
+var fs = require('fs');
+var cheerio = require('cheerio');
+var Moment = require('./Moment.js').Moment;
 
 var argv = require('optimist').usage(
         'Usage: $0 -i [facebook_messages.htm] -o [name_of_json_file]').demand(
