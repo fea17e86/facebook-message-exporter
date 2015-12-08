@@ -28,8 +28,14 @@ function Moment(params) {
 
 Moment.prototype.format = 'YYYY-MM-DDTHH:mm:ss';
 
-Moment.prototype.toString = function() {
-    return this.string();
+Moment.prototype.toString = function(utc) {
+  utc = utc || false;
+  var year = Moment.stringWLZ(this.year, 4);
+  var month = Moment.stringWLZ(this.month + 1, 2);
+  var day = Moment.stringWLZ(this.day, 2);
+  var hours = Moment.stringWLZ(this.hours + (utc ? 0 : (this.utc || 0)), 2);
+  var minutes = Moment.stringWLZ(this.minutes, 2);
+  return year +'-'+ month +'-'+ day +'T'+ hours +':'+ minutes;
 };
 
 Moment.prototype.valueOf = function() {
@@ -51,30 +57,39 @@ Moment.prototype.fromString = function(string) {
   return this.fromDate(new Date(string));
 };
 
-Moment.prototype.date = function() {
-  return new Date(this.year, this.month, this.day, this.hours + (this.utc || 0), this.minutes, this.seconds, this.milliseconds);
+Moment.prototype.date = function(utc) {
+  utc = utc || false;
+  return new Date(this.year, this.month, this.day, this.hours + (utc ? 0 : (this.utc || 0)), this.minutes, this.seconds, this.milliseconds);
 };
 
 Moment.prototype.utcDate = function() {
-  return new Date(this.year, this.month, this.day, this.hours, this.minutes, this.seconds, this.milliseconds);
+  return this.date(true);
 };
 
-Moment.prototype.string = function() {
+Moment.prototype.string = function(utc) {
+  utc = utc || false;
   var year = Moment.stringWLZ(this.year, 4);
   var month = Moment.stringWLZ(this.month + 1, 2);
   var day = Moment.stringWLZ(this.day, 2);
-  var hours = Moment.stringWLZ(this.hours + (this.utc || 0), 2);
+  var hours = Moment.stringWLZ(this.hours + (utc ? 0 : (this.utc || 0)), 2);
   var minutes = Moment.stringWLZ(this.minutes, 2);
-  return year +'-'+ month +'-'+ day +'T'+ hours +':'+ minutes;
+  return day +'.'+ month +'.'+ year +' '+ hours +':'+ minutes;
 };
 
 Moment.prototype.utcString = function() {
-  var year = Moment.stringWLZ(this.year, 4);
-  var month = Moment.stringWLZ(this.month + 1, 2);
-  var day = Moment.stringWLZ(this.day, 2);
-  var hours = Moment.stringWLZ(this.hours, 2);
-  var minutes = Moment.stringWLZ(this.minutes, 2);
-  return year +'-'+ month +'-'+ day +'T'+ hours +':'+ minutes;
+  return this.string(true);
+};
+
+Moment.prototype.prettyString = function(lang, utc) {
+  utc = utc || false;
+  lang = (lang && Moment.months.lang) ? lang : 'en';
+
+  return this.day +'. '+ Moment.months[lang][this.month] +' '+ this.year
+        +' - '+ (this.hours + (utc ? 0 : (this.utc || 0))) +':'+ Moment.stringWLZ(this.minutes, 2);
+};
+
+Moment.prototype.utcPrettyString = function(lang) {
+  return this.prettyString(lang, true);
 };
 
 Moment.prototype.json = function() {
@@ -97,6 +112,20 @@ Moment.months = {
     'Oktober',
     'November',
     'Dezember'
+  ],
+  en: [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
   ]
 };
 

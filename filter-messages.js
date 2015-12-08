@@ -5,6 +5,9 @@ var FBDP = require('./facebook-date-parser.js').FBDP;
 var badWords = require('./bad-words.js').badWords;
 var emojify = require('./emojify.js').emojify;
 
+// node filter-messages -i resources/threads.json -n "Tobbis Bälch, Cynthia García Belch" -f "2014-06-01" -t "2014-11-01"
+// original=47474 messages=13893 censored=422 oor=31410 empty=1749
+
 var argv = require('optimist')
       .usage('Usage: $0 -i [threads.json] -n [thred_name] -f [from] -t [to]')
       .demand([ 'i', 'n']).argv;
@@ -40,6 +43,8 @@ var receiveFile = function(err, data) {
 
     var threads = JSON.parse(data);
     var num = 0;
+    var empty = 0;
+    var oor = 0;
     var emojisNotFound = [];
 
     if (Array.isArray(threads)) {
@@ -49,26 +54,41 @@ var receiveFile = function(err, data) {
           num += messages.length;
           for (var m=0; m<messages.length; m++) {
             var message = messages[m];
-            if (messageInBetween(message)) {
-              var emojified = replaceEmojis(message.text);
-              message.text = emojified.text;
-              emojified.notFound.forEach(function(hex) {
-                if (emojisNotFound.indexOf(hex) === -1) {
-                  emojisNotFound.push(hex);
+            if (message && message.text && message.text.trim().length > 0) {
+              if (messageInBetween(message)) {
+                var emojified = replaceEmojis(message.text);
+                message.text = emojified.text;
+                emojified.notFound.forEach(function(hex) {
+                  if (emojisNotFound.indexOf(hex) === -1) {
+                    emojisNotFound.push(hex);
+                  }
+                });
+                if (censored(message)) {
+                  thread.censored.push(message);
+                } else {
+                  thread.messages.push(message);
                 }
-              });
-              if (censored(message)) {
-                thread.censored.push(message);
               } else {
-                thread.messages.push(message);
+                oor++;
               }
+            } else{
+              empty++;
             }
           }
         }
       }
     }
 
-    console.log('original=' + num, 'messages=' + thread.messages.length, 'censored=' + thread.censored.length);
+    console.log('original=' + num, 'messages=' + thread.messages.length, 'censored=' + thread.censored.length, 'oor='+ oor, 'empty='+ empty);
+
+    thread.messages.sort((a, b) => a.date.utcDate().getTime() - b.date.utcDate().getTime());
+    thread.censored.sort((a, b) => a.date.utcDate().getTime() - b.date.utcDate().getTime());
+
+    thread.from = thread.messages[0].date;
+    thread.to = thread.messages[thread.messages.length-1].date;
+
+    //console.log('FITRST', thread.messages[0].date.utcDate() +': '+ thread.messages[0].text);
+    //console.log('LAST', thread.messages[thread.messages.length-1].date.utcDate() +': '+ thread.messages[thread.messages.length-1].text);
 
     fs.writeFile('emojis-not-found.json', JSON.stringify(emojisNotFound));
 

@@ -1,4 +1,5 @@
 var altHex = require('./emoji-hex-map.js').hexValues;
+var iconMap = require('./emoji-icon-map.js').iconValues;
 
 function emojify(text) {
   var notFound = [];
@@ -26,6 +27,9 @@ function emojify(text) {
       }
     }
     text = newText;
+  }
+  for (icon in iconMap) {
+    text = text.replace(icon, '&#x' + iconMap[icon] + ';');
   }
   return { text: text, notFound: notFound };
 }

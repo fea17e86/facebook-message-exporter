@@ -16,5 +16,7 @@
     "url": "https://github.com/fea17e86/facebook-message-exporter/issues"
   },
   "homepage": "https://github.com/fea17e86/facebook-message-exporter#readme",
-  "dependencies": {}
+  "dependencies": {
+    "handlebars": "^4.0.5"
+  }
 }

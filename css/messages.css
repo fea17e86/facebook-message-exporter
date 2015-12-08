@@ -1,0 +1,31 @@
+body {
+  background-color: #f0f0f0;
+}
+
+.page-header {
+  border-bottom-color: #ddd;
+}
+
+.message {
+  border-bottom: solid 2px transparent;
+  color: #444;
+  margin-bottom: 10px;
+  padding: 7px;
+}
+
+.message-sender {
+  color: #666;
+  display: inline-block;
+  font-weight: bold;
+}
+
+.message-date {
+  color: #bbb;
+  display: inline-block;
+  float: right;
+}
+
+.message.cynthia {
+  background-color: #fff;
+  border-bottom-color: #ddd;
+}
