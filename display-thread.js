@@ -45,6 +45,10 @@ var displayAsHtml = function(thread) {
     return (new Moment(date)).utcPrettyString();
   });
 
+  handlebars.registerHelper("parseEmojis", function(text) {
+    return text;
+  });
+
   handlebars.registerHelper("additionanlClasses", function(message) {
     if (this.user === 'Tobbis Bälch') {
       return 'tobbis';
