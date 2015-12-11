@@ -6,11 +6,11 @@ var Moment = require('./Moment.js').Moment;
 // node display-thread -i "resources/Tobbis Bälch, Cynthia García Belch.json"
 
 var argv = require('optimist')
-      .usage('Usage: $0 -i [THREAD_NAME.json] -t [type: "html"]')
+      .usage('Usage: $0 -i [THREAD_NAME.json] -t [type: "book"]')
       .demand(['i']).argv;
 
 var input = argv.i;
-var type = argv.type || 'html';
+var type = argv.t || 'web';
 
 var receiveFile = function(err, json) {
   if (err) {
@@ -20,18 +20,12 @@ var receiveFile = function(err, json) {
 
   var thread = JSON.parse(json);
 
-  if (thread) {
-    switch (type) {
-      case 'html':
-      default:
-        displayAsHtml(thread);
-    }
-  }
+  displayAsHtml(thread, type);
 };
 
-var displayAsHtml = function(thread) {
+var displayAsHtml = function(thread, type) {
   var data = {
-    title: 'Cynthia García Zermeño & Tobbis Bälch',
+    title: 'Cynthia & Tobias',
     from: thread.from,
     to: thread.to,
     messages: thread.messages
@@ -45,8 +39,14 @@ var displayAsHtml = function(thread) {
     return (new Moment(date)).utcPrettyString();
   });
 
-  handlebars.registerHelper("parseEmojis", function(text) {
-    return text;
+  handlebars.registerHelper("replaceName", function(message) {
+    if (this.user === 'Tobbis Bälch') {
+      return 'Tobias';
+    }
+    if (this.user === 'Cynthia García Zermeño') {
+      return 'Cynthia';
+    }
+    return '';
   });
 
   handlebars.registerHelper("additionanlClasses", function(message) {
@@ -59,17 +59,19 @@ var displayAsHtml = function(thread) {
     return '';
   });
 
-  fs.readFile('templates/base.html', 'utf-8', function(err, source) {
+  var template = type === 'book' ? 'templates/book.html' : 'templates/base.html';
+
+  fs.readFile(template, 'utf-8', function(err, source) {
 
     if (err) {
-      console.log("Error while processing " + 'templates/base.html' + ": " + err);
+      console.log('Error while processing ' + template + ": " + err);
       process.exit();
     }
 
     var base = handlebars.compile(source);
     var html = base(data);
 
-    fs.writeFile(thread.name +'.html', html);
+    fs.writeFile(thread.name +'-'+ type +'.html', html);
   });
 };
 

@@ -13,5 +13,8 @@ exports.badWords = [
   'pussy',
   'sex',
   'sweet spot',
-  'thigh'
+  'thigh',
+  'panty',
+  'panties',
+  'underwear'
 ];

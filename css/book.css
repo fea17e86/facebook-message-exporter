@@ -1,0 +1,22 @@
+.message {
+  color: #444;
+  margin-top: 10px;
+  padding: 7px;
+}
+.message .message-header .message-sender {
+  color: #666;
+  display: inline-block;
+  font-weight: bold;
+}
+.message .message-header .message-date {
+  color: #bbb;
+  display: inline-block;
+  float: right;
+}
+.message .message-text {
+  font-size: 12pt;
+  white-space: pre-line;
+}
+.message:first-child {
+  margin-top: 0;
+}

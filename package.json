@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/fea17e86/facebook-message-exporter#readme",
   "dependencies": {
-    "handlebars": "^4.0.5"
+    "handlebars": "^4.0.5",
+    "officegen": "github:protobi/officegen"
   }
 }

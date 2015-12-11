@@ -84,8 +84,7 @@ Moment.prototype.prettyString = function(lang, utc) {
   utc = utc || false;
   lang = (lang && Moment.months.lang) ? lang : 'en';
 
-  return this.day +'. '+ Moment.months[lang][this.month] +' '+ this.year
-        +' - '+ (this.hours + (utc ? 0 : (this.utc || 0))) +':'+ Moment.stringWLZ(this.minutes, 2);
+  return this.day +'. '+ Moment.months[lang][this.month] +' '+ this.year;
 };
 
 Moment.prototype.utcPrettyString = function(lang) {

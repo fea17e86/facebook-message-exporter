@@ -1,13 +1,4 @@
-body {
-  background-color: #f0f0f0;
-}
-
-.page-header {
-  border-bottom-color: #ddd;
-}
-
 .message {
-  border-bottom: solid 2px transparent;
   color: #444;
   margin-top: 10px;
   padding: 7px;
@@ -36,25 +27,9 @@ body {
     margin-top: 0;
   }
 
-  &.cynthia {
-    background-color: #fff;
-
-    + .message.cynthia {
-      margin-top: 0;
-
-      .message-header {
-        display: none;
-      }
-    }
+  &.cynthia&:first-child {
   }
 
   &.tobbis {
-    + .message.tobbis {
-      margin-top: 0;
-
-      .message-header {
-        display: none;
-      }
-    }
   }
 }

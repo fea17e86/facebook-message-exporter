@@ -22,6 +22,7 @@ body {
 }
 .message .message-text {
   font-size: 12pt;
+  white-space: pre-line;
 }
 .message:first-child {
   margin-top: 0;
@@ -34,9 +35,6 @@ body {
 }
 .message.cynthia + .message.cynthia .message-header {
   display: none;
-}
-.message.cynthia + .message.cynthia:last-of-type {
-  background-color: red;
 }
 .message.tobbis + .message.tobbis {
   margin-top: 0;

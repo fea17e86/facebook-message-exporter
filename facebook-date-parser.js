@@ -6,7 +6,11 @@ var FBDP = {
 
   parse: function(dateString) {
     if (dateString) {
-      var tokens = dateString.replace(' ' + this.timeSeparator, '').split(' ');
+      try {
+        var tokens = dateString.replace(' ' + this.timeSeparator, '').split(' ');
+      } catch (e) {
+        console.log('parse', dateString);
+      }
       var date = new Moment();
       for (var i=1; i<tokens.length; i++) {
         switch(i) {
