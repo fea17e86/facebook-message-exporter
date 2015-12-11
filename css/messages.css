@@ -29,16 +29,5 @@ body {
 }
 .message.cynthia {
   background-color: #fff;
-}
-.message.cynthia + .message.cynthia {
-  margin-top: 0;
-}
-.message.cynthia + .message.cynthia .message-header {
-  display: none;
-}
-.message.tobbis + .message.tobbis {
-  margin-top: 0;
-}
-.message.tobbis + .message.tobbis .message-header {
-  display: none;
+  border-bottom-color: #ddd;
 }
