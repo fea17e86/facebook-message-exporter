@@ -80,15 +80,23 @@ Moment.prototype.utcString = function() {
   return this.string(true);
 };
 
-Moment.prototype.prettyString = function(lang, utc) {
+Moment.prototype.prettyString = function(lang, time, utc) {
+  time = time || false;
   utc = utc || false;
   lang = (lang && Moment.months.lang) ? lang : 'en';
 
-  return this.day +'. '+ Moment.months[lang][this.month] +' '+ this.year;
+  var ret = this.day +'. '+ Moment.months[lang][this.month] +' '+ this.year;
+  if (time) {
+    var hours = Moment.stringWLZ(this.hours + (utc ? 0 : (this.utc || 0)), 2);
+    var minutes = Moment.stringWLZ(this.minutes, 2);
+    ret += ', '+ hours +':'+ minutes;
+  }
+
+  return ret;
 };
 
-Moment.prototype.utcPrettyString = function(lang) {
-  return this.prettyString(lang, true);
+Moment.prototype.utcPrettyString = function(lang, time) {
+  return this.prettyString(lang, time, true);
 };
 
 Moment.prototype.json = function() {

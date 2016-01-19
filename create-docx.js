@@ -3,6 +3,8 @@ var cheerio = require('cheerio');
 var officegen = require('officegen');
 var Moment = require('./Moment.js').Moment;
 
+// https://github.com/Ziv-Barber/officegen
+
 // node create-docx -i "resources/Tobbis Bälch, Cynthia García Belch.json"
 
 var argv = require('optimist')

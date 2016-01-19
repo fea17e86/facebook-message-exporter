@@ -3,14 +3,15 @@ var cheerio = require('cheerio');
 var handlebars = require('handlebars');
 var Moment = require('./Moment.js').Moment;
 
-// node display-thread -i "resources/Tobbis Bälch, Cynthia García Belch.json"
+// node display-thread -i "resources/Tobbis Bälch, Cynthia García Belch.json" -t "book" -c 100
 
 var argv = require('optimist')
-      .usage('Usage: $0 -i [THREAD_NAME.json] -t [type: "book"]')
+      .usage('Usage: $0 -i [THREAD_NAME.json] -t [type: "book"] -c [count: -1 = all]')
       .demand(['i']).argv;
 
 var input = argv.i;
 var type = argv.t || 'web';
+var number = argv.c || -1;
 
 var receiveFile = function(err, json) {
   if (err) {
@@ -31,12 +32,21 @@ var displayAsHtml = function(thread, type) {
     messages: thread.messages
   };
 
+  handlebars.registerHelper('eachlimited', function(context, options) {
+    var ret = '';
+    var num = number > 0 ? Math.min(number, context.length) : context.length;
+    for (var i=0; i<num; i++) {
+      ret = ret + options.fn(context[i]);
+    }
+    return ret;
+  });
+
   handlebars.registerHelper('format', function(date) {
     return (new Moment(date)).utcString();
   });
 
-  handlebars.registerHelper('prettyFormat', function(date) {
-    return (new Moment(date)).utcPrettyString();
+  handlebars.registerHelper('prettyFormat', function(date, options) {
+    return (new Moment(date)).utcPrettyString('en', options.hash['time']);
   });
 
   handlebars.registerHelper("replaceName", function(message) {

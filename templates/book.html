@@ -11,29 +11,55 @@
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
           integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="js/page-creator.js"></script>
+    <script>
+      var bookTitle = undefined;
+
+      function createPages() {
+        convertToPages($('.message-list .message'), $('.print-area'), {
+          contentHeight: 980 - 50,
+          createHeader: function(messages, index) {
+            if (!bookTitle) {
+              bookTitle = $('.title-page .title').html();
+            }
+            return bookTitle +' - '+ $(messages[0]).find('.message-date').html();
+          },
+          createFooter: function(messages, index) {
+            return index + 1;
+          }
+        });
+      }
+
+      $(function () {
+        $('.container').prepend($('<button class="btn btn-default" onclick="createPages();">create pages</button>'));
+      });
+    </script>
   </head>
   <body>
 
     <div class="container">
 
-      <div class="page-header">
-        <h1>{{title}}</h1>
-        <p class="lead">{{prettyFormat from}} to {{prettyFormat to}}</p>
-      </div>
 
       <div class="message-list">
-        {{#each messages}}
-          <div class="message {{additionanlClasses}}">
+        {{#eachlimited messages}}
+          <div class="message {{additionanlClasses}}" title="{{replaceName this.user}}: {{prettyFormat this.date time="true"}}">
             <div class="message-header">
               <div class="message-sender">{{replaceName this.user}}</div>
-              <div class="message-date">{{format this.date}}</div>
+              <div class="message-date">{{prettyFormat this.date time="true"}}</div>
             </div>
             <div class="message-text">{{{this.text}}}</div>
           </div>
-        {{/each}}
+        {{/eachlimited}}
       </div>
-
     </div>
 
+    <div class="print-area">
+      <div class="page title-page">
+        <div class="page-content">
+          <h1 class="title">{{title}}</h1>
+          <p class="lead">{{prettyFormat from}} to {{prettyFormat to}}</p>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
