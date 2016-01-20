@@ -1,17 +1,53 @@
+/* 601px */
+.ms-only-first-message-header .message-sender {
+  display: none;
+}
+.ms-only-first-message-header:first-child .message-sender {
+  display: inline;
+}
+.ms-indented:nth-child(even) {
+  padding-left: 20px;
+}
+.serif {
+  font-family: Cambria, serif;
+}
+.sans-serif {
+  font-family: Calibri, sans-serif;
+}
+.state-printing {
+  font-family: Cambria, serif;
+}
+.state-printing .container {
+  display: none;
+}
+.state-printing .print-area {
+  display: block;
+}
+.state-printing .print-area .page {
+  border: none 0;
+  margin: 0;
+}
+.state-printing .print-area .page .page-content {
+  border: none 0;
+}
+.state-printing .print-area .page .page-content .message:nth-child(even) {
+  padding-left: 20px;
+}
+.state-printing .print-area .page .page-content .message .message-sender {
+  display: none;
+}
+.state-printing .print-area .page .page-content .message:first-child .message-sender {
+  display: inline;
+}
 .message {
   color: #444;
   margin-top: 14px;
-  /*max-width: 601px;*/
   page-break-inside: avoid;
 }
-.message .message-header {
-  color: #000;
-  display: none;
+.message .message-sender {
+  color: #666;
   font-size: 9pt;
-  font-weight: bold;
-}
-.message .message-header .message-date {
-  display: none;
+  font-style: italic;
 }
 .message .message-text {
   color: #000;
@@ -25,7 +61,7 @@
   margin-bottom: 30px;
   page-break-before: always;
   position: relative;
-  width: 601px;
+  width: 675px;
 }
 .page .page-header,
 .page .page-content,
@@ -38,7 +74,7 @@
 .page .page-footer {
   border: none 0;
   font-size: 10pt;
-  height: 25px;
+  height: 30px;
   margin: 0;
   padding: 0;
   text-align: center;
@@ -49,15 +85,12 @@
 .page .page-content {
   border-bottom: solid 1px red;
   border-top: solid 1px red;
-  bottom: 25px;
-  top: 25px;
+  bottom: 30px;
+  top: 30px;
   overflow: hidden;
 }
 .page .page-content .message:first-child {
   margin-top: 0;
-}
-.page .page-content .message:first-child .message-header {
-  display: block;
 }
 .page .page-footer {
   bottom: 0;
@@ -85,6 +118,7 @@
   display: none;
 }
 @media print {
+  font-family: Cambria, serif;
   .container {
     display: none;
   }
@@ -98,13 +132,13 @@
   .print-area .page .page-content {
     border: none 0;
   }
-  .print-area .page .page-content .message .message-header {
+  .print-area .page .page-content .message:nth-child(even) {
+    padding-left: 20px;
+  }
+  .print-area .page .page-content .message .message-sender {
     display: none;
   }
-  .print-area .page .page-content .message:first-child .message-header {
-    display: block;
-  }
-  .print-area .page .page-content .message:first-child .message-header .message-date {
-    display: none;
+  .print-area .page .page-content .message:first-child .message-sender {
+    display: inline;
   }
 }

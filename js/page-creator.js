@@ -3,12 +3,16 @@ function convertToPages($elements, $target, options) {
   options = options || {};
   options.createHeader = options.createHeader || function(pageElements, pageIndex) { return ''; };
   options.createFooter = options.createFooter || function(pageElements, pageIndex) { return pageIndex > 0 ? pageIndex : ''; };
-  options.contentWidth = options.contentWidth || 601;
+  options.contentWidth = options.contentWidth || 675;
   options.contentHeight = options.contentHeight || 980;
 
   var pages = fillPages($elements.toArray(), options);
   for (var i=0; i<pages.length; i++) {
     $target.append(pages[i]);
+  }
+
+  if (options.callback) {
+    options.callback($elements, $target, options);
   }
 }
 

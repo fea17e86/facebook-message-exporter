@@ -1,18 +1,53 @@
+@pageHeight: 980px;
+@pageWidth: 675px; /* 601px */
+
+.ms-only-first-message-header {
+  .message-sender { display: none; }
+  &:first-child .message-sender { display: inline; }
+}
+
+.ms-indented {
+  &:nth-child(even) {
+    padding-left: 20px;
+  }
+}
+
+.serif { font-family: Cambria, serif; }
+.sans-serif { font-family: Calibri, sans-serif; }
+
+.state-printing {
+  .serif;
+
+  .container { display: none; }
+
+  .print-area {
+    display: block;
+
+    .page {
+      border: none 0;
+      margin: 0;
+
+      .page-content {
+        border: none 0;
+
+        .message {
+          .ms-indented;
+          .ms-only-first-message-header;
+        }
+      }
+    }
+  }
+}
+
 .message {
   color: #444;
   margin-top: 14px;
-  /*max-width: 601px;*/
   page-break-inside: avoid;
 
-  .message-header {
-    color: #000;
-    display: none;
+  .message-sender {
+    color: #666;
     font-size: 9pt;
-    font-weight: bold;
-
-    .message-date {
-      display: none;
-    }
+    font-style: italic;
   }
 
   .message-text {
@@ -25,11 +60,11 @@
 .page {
   border: solid 1px red;
   counter-increment: page;
-  height: 980px;
+  height: @pageHeight;
   margin-bottom: 30px;
   page-break-before: always;
   position: relative;
-  width: 601px;
+  width: @pageWidth;
 
   .page-header, .page-content, .page-footer {
     left: 0;
@@ -40,7 +75,7 @@
   .page-header, .page-footer {
     border: none 0;
     font-size: 10pt;
-    height: 25px;
+    height: 30px;
     margin: 0;
     padding : 0;
     text-align: center;
@@ -51,16 +86,12 @@
   .page-content {
     border-bottom: solid 1px red;
     border-top: solid 1px red;
-    bottom: 25px;
-    top: 25px;
+    bottom: 30px;
+    top: 30px;
     overflow: hidden;
 
     .message:first-child {
       margin-top: 0;
-
-      .message-header {
-        display: block;
-      }
     }
   }
 
@@ -90,37 +121,8 @@
   }
 }
 
-.print-area {
-  display: none;
-}
+.print-area { display: none; }
 
 @media print {
-  .container {
-    display: none;
-  }
-
-  .print-area {
-    display: block;
-
-    .page {
-      border: none 0;
-      margin: 0;
-
-      .page-content {
-        border: none 0;
-
-        .message {
-          .message-header { display: none; }
-
-          &:first-child {
-            .message-header {
-              display: block;
-
-              .message-date { display: none; }
-            }
-          }
-        }
-      }
-    }
-  }
+  .state-printing;
 }

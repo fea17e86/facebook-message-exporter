@@ -4,6 +4,7 @@ var Moment = require('./Moment.js').Moment;
 var FBDP = require('./facebook-date-parser.js').FBDP;
 var firstMails = require('./resources/first-mails.js').firstMails;
 var badWords = require('./bad-words.js').badWords;
+var combineMessages = require('./combine-messages.js').combineMessages;
 var emojify = require('./emojify.js').emojify;
 
 // node filter-messages -i resources/threads.json -n "Tobbis Bälch, Cynthia García Belch" -f "2014-06-01" -t "2014-11-01"
@@ -38,7 +39,16 @@ var isMessageInBetween = function(message, from, to) {
   return true;
 };
 
-var filterMessages = function(messages, from, to, mildCensor) {
+var compareMessages = function(a, b) {
+  if (a.date && b.date) {
+    var aDate = a.date.isMoment() ? a.date.utcDate().getTime() : a.data.getTime();
+    var bDate = b.date.isMoment() ? b.date.utcDate().getTime() : b.date.getTime();
+    return aDate - bDate;
+  }
+  return 0;
+};
+
+var filterMessages = function(messages, from, to, mildCensor, sort) {
   var accepted = [];
   var censored = [];
   var emojisNotFound = [];
@@ -80,6 +90,10 @@ var filterMessages = function(messages, from, to, mildCensor) {
     }
   }
 
+  if (sort) {
+    accepted.sort(compareMessages);
+  }
+
   return {
     messages: accepted,
     censored: censored,
@@ -98,7 +112,7 @@ var filterThreads = function(threads, threadName, from, to, mildCensor) {
   var empty = 0;
   var outOfRange = 0;
 
-  var result = filterMessages(firstMails.messages, from, to, true);
+  var result = filterMessages(firstMails.messages, from, to, true, false);
   accepted.push.apply(accepted, result.messages);
   censored.push.apply(censored, result.censored);
   result.emojisNotFound.forEach(function(hex) {
@@ -115,7 +129,7 @@ var filterThreads = function(threads, threadName, from, to, mildCensor) {
     for (var t=0; t<threads.length; t++) {
       var thread = threads[t];
       if (threadName === thread.users) {
-        result = filterMessages(thread.messages.concat(), from, to, mildCensor);
+        result = filterMessages(thread.messages.concat(), from, to, mildCensor, false);
         accepted.push.apply(accepted, result.messages);
         censored.push.apply(censored, result.censored);
         result.emojisNotFound.forEach(function(hex) {
@@ -129,6 +143,8 @@ var filterThreads = function(threads, threadName, from, to, mildCensor) {
       }
     }
   }
+
+  accepted = combineMessages(accepted.sort(compareMessages));
 
   return {
     messages: accepted,
@@ -175,7 +191,7 @@ var filterData = function(data, threadName, from, to, mildCensor) {
     thread.to = thread.messages[thread.messages.length-1].date;
   }
 
-  return { thread: thread, emojisNotFound: emojisNotFound };
+  return { thread: thread, emojisNotFound: result.emojisNotFound };
 };
 
 var receiveFile = function(err, data) {

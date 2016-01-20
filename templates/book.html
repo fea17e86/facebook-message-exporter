@@ -17,15 +17,19 @@
 
       function createPages() {
         convertToPages($('.message-list .message'), $('.print-area'), {
-          contentHeight: 980 - 50,
+          contentHeight: 980 - 60,
           createHeader: function(messages, index) {
             if (!bookTitle) {
               bookTitle = $('.title-page .title').html();
             }
-            return bookTitle +' - '+ $(messages[0]).find('.message-date').html();
+            return bookTitle +' - '+ $(messages[0]).attr('data-date');
           },
           createFooter: function(messages, index) {
             return index + 1;
+          },
+          callback: function() {
+            console.log('callback', $('body'));
+            $('body').addClass('state-printing');
           }
         });
       }
@@ -42,12 +46,9 @@
 
       <div class="message-list">
         {{#eachlimited messages}}
-          <div class="message {{additionanlClasses}}" title="{{replaceName this.user}}: {{prettyFormat this.date time="true"}}">
-            <div class="message-header">
-              <div class="message-sender">{{replaceName this.user}}</div>
-              <div class="message-date">{{prettyFormat this.date time="true"}}</div>
-            </div>
-            <div class="message-text">{{{this.text}}}</div>
+          <div class="message {{additionanlClasses}}" data-date="{{prettyFormat this.date time="true"}}"
+                title="{{replaceName this.user}}: {{prettyFormat this.date time="true"}}">
+            <div class="message-text"><span class="message-sender">{{replaceName this.user}} - </span>{{{this.text}}}</div>
           </div>
         {{/eachlimited}}
       </div>

@@ -3,6 +3,7 @@ var cheerio = require('cheerio');
 var handlebars = require('handlebars');
 var Moment = require('./Moment.js').Moment;
 
+// creates html files out of a thread represented in a json file
 // node display-thread -i "resources/Tobbis Bälch, Cynthia García Belch.json" -t "book" -c 100
 
 var argv = require('optimist')

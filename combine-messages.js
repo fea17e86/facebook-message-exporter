@@ -2,6 +2,7 @@ var fs = require('fs');
 var cheerio = require('cheerio');
 var Moment = require('./Moment.js').Moment;
 
+// combines messages which belong together: a message, following another one sent by the same user, will be concatenated
 // node combine-messages -i resources/threads.json
 
 var argv = require('optimist')
@@ -28,6 +29,7 @@ var combineMessages = function(messages, params) {
         last = current;
       }
     }
+    console.log('combineMessages', 'original: '+ messages.length, 'combined: '+ combined.length);
     return combined;
   }
   return messages;
@@ -44,7 +46,7 @@ var receiveFile = function(err, data) {
     if (data && data.messages) {
       data.messages = combineMessages(data.messages);
 
-      fs.writeFile(data.name +'.json', JSON.stringify(data));
+      fs.writeFile(data.name +'_combined.json', JSON.stringify(data));
     }
 };
 

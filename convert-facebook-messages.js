@@ -2,6 +2,7 @@ var fs = require('fs');
 var cheerio = require('cheerio');
 var Moment = require('./Moment.js').Moment;
 
+// transforms facebooks messages.html into a json structure with all the threads
 // node convert-facebook-messages -i resources/fb-messages.htm -o threads.json
 
 var argv = require('optimist').usage(
