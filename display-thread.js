@@ -50,12 +50,12 @@ var displayAsHtml = function(thread, type) {
     return (new Moment(date)).utcPrettyString('en', options.hash['time']);
   });
 
-  handlebars.registerHelper("replaceName", function(message) {
+  handlebars.registerHelper("replaceName", function(message, options) {
     if (this.user === 'Tobbis Bälch') {
-      return 'Tobias';
+      return options.hash['first-letter'] ? 'T' : 'Tobias';
     }
     if (this.user === 'Cynthia García Zermeño') {
-      return 'Cynthia';
+      return options.hash['first-letter'] ? 'C' : 'Cynthia';
     }
     return '';
   });

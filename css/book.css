@@ -1,21 +1,39 @@
-/* 601px */
-.ms-only-first-message-header .message-sender {
+/* 1111 - 1067 = 44px = 1cm */
+.bordered-page {
+  border: solid 1px;
+}
+.bordered-page .page-header {
+  border-bottom: solid 1px;
+}
+.bordered-page .page-footer {
+  border-top: solid 1px;
+}
+.only-first-message-header .message-sender {
   display: none;
 }
-.ms-only-first-message-header:first-child .message-sender {
+.only-first-message-header:first-child .message-sender {
   display: inline;
 }
-.ms-indented:nth-child(even) {
+.indented:nth-child(even) {
   padding-left: 20px;
 }
 .serif {
-  font-family: Cambria, serif;
+  font-family: Georgia, Cambria, serif;
 }
 .sans-serif {
   font-family: Calibri, sans-serif;
 }
-.state-printing {
-  font-family: Cambria, serif;
+.bold {
+  font-weight: bold;
+}
+.uppercase {
+  text-transform: uppercase;
+}
+.separator-hyphen .message-sender::after {
+  content: " - ";
+}
+.separator-dot .message-sender::after {
+  content: ". ";
 }
 .state-printing .container {
   display: none;
@@ -23,42 +41,30 @@
 .state-printing .print-area {
   display: block;
 }
-.state-printing .print-area .page {
-  border: none 0;
-  margin: 0;
-}
-.state-printing .print-area .page .page-content {
-  border: none 0;
-}
-.state-printing .print-area .page .page-content .message:nth-child(even) {
-  padding-left: 20px;
-}
-.state-printing .print-area .page .page-content .message .message-sender {
-  display: none;
-}
-.state-printing .print-area .page .page-content .message:first-child .message-sender {
-  display: inline;
+.page-header {
+  border-bottom: none 0;
 }
 .message {
-  color: #444;
+  color: #000;
+  font-size: 9pt;
   margin-top: 14px;
   page-break-inside: avoid;
 }
+.message .message-sender::after {
+  content: ". ";
+}
 .message .message-sender {
-  color: #666;
-  font-size: 9pt;
-  font-style: italic;
+  font-weight: bold;
+  font-family: Calibri, sans-serif;
+  text-transform: uppercase;
 }
 .message .message-text {
-  color: #000;
-  font-size: 9pt;
+  font-family: Georgia, Cambria, serif;
   white-space: pre-line;
 }
 .page {
-  border: solid 1px red;
-  counter-increment: page;
-  height: 980px;
-  margin-bottom: 30px;
+  font-family: Georgia, Cambria, serif;
+  height: 1111px;
   page-break-before: always;
   position: relative;
   width: 675px;
@@ -72,9 +78,8 @@
 }
 .page .page-header,
 .page .page-footer {
-  border: none 0;
   font-size: 10pt;
-  height: 30px;
+  height: 18px;
   margin: 0;
   padding: 0;
   text-align: center;
@@ -83,11 +88,10 @@
   top: 0;
 }
 .page .page-content {
-  border-bottom: solid 1px red;
-  border-top: solid 1px red;
-  bottom: 30px;
-  top: 30px;
+  bottom: 18px;
   overflow: hidden;
+  padding: 20px 0;
+  top: 18px;
 }
 .page .page-content .message:first-child {
   margin-top: 0;
@@ -118,27 +122,10 @@
   display: none;
 }
 @media print {
-  font-family: Cambria, serif;
   .container {
     display: none;
   }
   .print-area {
     display: block;
-  }
-  .print-area .page {
-    border: none 0;
-    margin: 0;
-  }
-  .print-area .page .page-content {
-    border: none 0;
-  }
-  .print-area .page .page-content .message:nth-child(even) {
-    padding-left: 20px;
-  }
-  .print-area .page .page-content .message .message-sender {
-    display: none;
-  }
-  .print-area .page .page-content .message:first-child .message-sender {
-    display: inline;
   }
 }
