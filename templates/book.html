@@ -46,8 +46,8 @@
       <div class="message-list">
         {{#eachlimited messages}}
           <div class="message {{additionanlClasses}}" data-date="{{prettyFormat date time="true"}}"
-                title="{{replaceName user first-letter="true"}}: {{prettyFormat date time="true"}}">
-            <div class="message-text"><span class="message-sender">{{replaceName user first-letter="true"}}</span>{{{this.text}}}</div>
+                title="{{replaceName user}} - {{prettyFormat date time="true"}}">
+            <div class="message-text"><span class="message-sender">{{replaceName user}}</span>{{{this.text}}}</div>
           </div>
         {{/eachlimited}}
       </div>
