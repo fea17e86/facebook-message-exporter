@@ -1,11 +1,11 @@
 /* 1111 - 1067 = 44px = 1cm */
-.bordered-page {
+.bordered {
   border: solid 1px;
 }
-.bordered-page .page-header {
+.bordered .page-header {
   border-bottom: solid 1px;
 }
-.bordered-page .page-footer {
+.bordered .page-footer {
   border-top: solid 1px;
 }
 .only-first-message-header .message-sender {
@@ -18,7 +18,7 @@
   padding-left: 20px;
 }
 .serif {
-  font-family: Georgia, Times, serif;
+  font-family: Georgia, Times, Cambria, serif;
 }
 .sans-serif {
   font-family: Helvetica, Times, sans-serif;
@@ -58,12 +58,12 @@
   font-family: Helvetica, Times, sans-serif;
 }
 .message .message-text {
-  font-family: Georgia, Times, serif;
+  font-family: Georgia, Times, Cambria, serif;
   white-space: pre-line;
 }
 .page {
-  font-family: Georgia, Times, serif;
-  height: 1111px;
+  font-family: Georgia, Times, Cambria, serif;
+  height: 1067px;
   page-break-before: always;
   position: relative;
   width: 675px;
@@ -107,8 +107,10 @@
 }
 .page.title-page .page-content {
   border: none 0;
-  margin: 50% auto;
+  bottom: auto;
+  margin-top: 33%;
   text-align: center;
+  top: auto;
 }
 .page.title-page .page-content h1 {
   font-size: 16pt;

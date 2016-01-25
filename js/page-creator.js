@@ -4,7 +4,7 @@ function convertToPages($elements, $target, options) {
   options.createHeader = options.createHeader || function(pageElements, pageIndex) { return ''; };
   options.createFooter = options.createFooter || function(pageElements, pageIndex) { return pageIndex > 0 ? pageIndex : ''; };
   options.contentWidth = options.contentWidth || 675;
-  options.contentHeight = options.contentHeight || 980;
+  options.contentHeight = options.contentHeight || 1111;
 
   var pages = fillPages($elements.toArray(), options);
   for (var i=0; i<pages.length; i++) {

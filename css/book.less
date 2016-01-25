@@ -1,9 +1,9 @@
-@pageHeight: 1111px; /* 1111 - 1067 = 44px = 1cm */
+@pageHeight: 1067px; /* 1111 - 1067 = 44px = 1cm */
 @pageWidth: 675px;
 @contentMargin: 18px;
 @contentPadding: 20px;
 
-.bordered-page {
+.bordered {
   border: solid 1px;
   .page-header { border-bottom: solid 1px; }
   .page-footer { border-top: solid 1px; }
@@ -20,7 +20,7 @@
   }
 }
 
-.serif { font-family: Georgia, Times, serif; }
+.serif { font-family: Georgia, Times, Cambria, serif; }
 .sans-serif { font-family: Helvetica, Times, sans-serif; }
 .bold { font-weight: bold; }
 .uppercase { text-transform: uppercase; }
@@ -119,8 +119,10 @@
 
     .page-content {
       border: none 0;
-      margin: 50% auto;
+      bottom: auto;
+      margin-top: 33%;
       text-align: center;
+      top: auto;
 
       h1 { font-size: 16pt; }
 
