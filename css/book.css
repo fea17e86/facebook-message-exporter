@@ -18,10 +18,10 @@
   padding-left: 20px;
 }
 .serif {
-  font-family: Georgia, Times, Cambria, serif;
+  font-family: Georgia, Times, serif;
 }
 .sans-serif {
-  font-family: Helvetica, Times, sans-serif;
+  font-family: Helvetica, Calibri, sans-serif;
 }
 .bold {
   font-weight: bold;
@@ -55,14 +55,14 @@
 }
 .message .message-sender {
   font-weight: bold;
-  font-family: Helvetica, Times, sans-serif;
+  font-family: Helvetica, Calibri, sans-serif;
 }
 .message .message-text {
-  font-family: Georgia, Times, Cambria, serif;
+  font-family: Georgia, Times, serif;
   white-space: pre-line;
 }
 .page {
-  font-family: Georgia, Times, Cambria, serif;
+  font-family: Georgia, Times, serif;
   height: 1067px;
   page-break-before: always;
   position: relative;
