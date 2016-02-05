@@ -1,11 +1,19 @@
 /* 1111 - 1067 = 44px = 1cm */
+body {
+  margin: 0;
+  padding: 0;
+}
 .bordered {
   border: solid 1px;
+  border-top: none 0;
 }
 .bordered .page-header {
   border-bottom: solid 1px;
 }
 .bordered .page-footer {
+  border-top: solid 1px;
+}
+.bordered:first-child {
   border-top: solid 1px;
 }
 .only-first-message-header .message-sender {
@@ -63,24 +71,30 @@
 }
 .page {
   font-family: Georgia, Times, serif;
-  height: 1067px;
-  page-break-before: always;
+  display: block;
+  float: none;
+  height: 1060px;
+  page-break-after: always;
+  page-break-inside: avoid;
   position: relative;
   width: 675px;
+  -webkit-region-break-inside: avoid;
 }
 .page .page-header,
 .page .page-content,
 .page .page-footer {
   left: 0;
+  page-break-inside: avoid;
   position: absolute;
   right: 0;
+  -webkit-region-break-inside: avoid;
 }
 .page .page-header,
 .page .page-footer {
   font-size: 10pt;
   height: 18px;
   margin: 0;
-  padding: 0;
+  padding: 0 0;
   text-align: center;
 }
 .page .page-header {
@@ -98,8 +112,8 @@
 .page .page-footer {
   bottom: 0;
 }
-.page:first-child {
-  page-break-before: avoid;
+.page:last-child {
+  page-break-after: avoid;
 }
 .page.title-page .page-header,
 .page.title-page .page-footer {
@@ -121,6 +135,9 @@
 }
 .print-area {
   display: none;
+}
+@page {
+  margin: 3cm;
 }
 @media print {
   .container {

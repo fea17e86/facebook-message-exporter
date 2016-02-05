@@ -1,12 +1,23 @@
-@pageHeight: 1067px; /* 1111 - 1067 = 44px = 1cm */
+@pageHeight: 1060px; /* 1111 - 1067 = 44px = 1cm */
 @pageWidth: 675px;
 @contentMargin: 18px;
+@pageHeaderPadding: 0;
 @contentPadding: 20px;
+
+body {
+  margin: 0;
+  padding: 0;
+}
 
 .bordered {
   border: solid 1px;
+  border-top: none 0;
   .page-header { border-bottom: solid 1px; }
   .page-footer { border-top: solid 1px; }
+
+  &:first-child {
+    border-top: solid 1px;
+  }
 }
 
 .only-first-message-header {
@@ -72,22 +83,28 @@
 
 .page {
   .serif;
+  display: block;
+  float: none;
   height: @pageHeight;
-  page-break-before: always;
+  page-break-after: always;
+  page-break-inside: avoid;
   position: relative;
   width: @pageWidth;
+  -webkit-region-break-inside: avoid;
 
   .page-header, .page-content, .page-footer {
     left: 0;
+    page-break-inside: avoid;
     position: absolute;
     right: 0;
+    -webkit-region-break-inside: avoid;
   }
 
   .page-header, .page-footer {
     font-size: 10pt;
-    height: @contentMargin;
+    height: @contentMargin - (2 * @pageHeaderPadding);
     margin: 0;
-    padding : 0;
+    padding : @pageHeaderPadding 0;
     text-align: center;
   }
 
@@ -108,8 +125,8 @@
     bottom: 0;
   }
 
-  &:first-child {
-    page-break-before: avoid;
+  &:last-child {
+    page-break-after: avoid;
   }
 
   &.title-page {
@@ -135,6 +152,10 @@
 }
 
 .print-area { display: none; }
+
+@page {
+  margin: 3cm;
+}
 
 @media print {
   .state-printing;

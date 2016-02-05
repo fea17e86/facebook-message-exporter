@@ -5,8 +5,15 @@ function convertToPages($elements, $target, options) {
   options.createFooter = options.createFooter || function(pageElements, pageIndex) { return pageIndex > 0 ? pageIndex : ''; };
   options.contentWidth = options.contentWidth || 675;
   options.contentHeight = options.contentHeight || 1111;
+  options.pageFrom = options.pageFrom || 301;
+  options.pageTo = options.pageTo || 330;
+
+  if (options.pageFrom > 0) {
+    $target.html('');
+  }
 
   var pages = fillPages($elements.toArray(), options);
+
   for (var i=0; i<pages.length; i++) {
     $target.append(pages[i]);
   }
@@ -21,12 +28,20 @@ function fillPages(elements, options) {
   var length = elements.length;
   var index = 0;
 
+  var pageFrom = options.pageFrom || 0;
+  var pageTo = options.pageTo || -1;
+
   while (elements.length > 0) {
     var page = fillPage(elements, index, options);
     if (page) {
-      pages.push(page);
+      if (index >= pageFrom && (pageTo < pageFrom || index <= pageTo)) {
+        pages.push(page);
+      }
       index++;
     } else {
+      return pages;
+    }
+    if (pageTo > pageFrom && index > pageTo) {
       return pages;
     }
   }
