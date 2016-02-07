@@ -5,8 +5,8 @@ function convertToPages($elements, $target, options) {
   options.createFooter = options.createFooter || function(pageElements, pageIndex) { return pageIndex > 0 ? pageIndex : ''; };
   options.contentWidth = options.contentWidth || 675;
   options.contentHeight = options.contentHeight || 1111;
-  options.pageFrom = options.pageFrom || 301;
-  options.pageTo = options.pageTo || 330;
+  options.pageFrom = options.pageFrom || 0;
+  options.pageTo = options.pageTo || 30;
 
   if (options.pageFrom > 0) {
     $target.html('');
