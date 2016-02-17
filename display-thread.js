@@ -22,15 +22,27 @@ var receiveFile = function(err, json) {
 
   var thread = JSON.parse(json);
 
-  displayAsHtml(thread, type);
+  if (type === 'web') {
+    var style = '';
+    fs.readFile('css/bootstrap-3.3.6.min.css', "utf-8", function (err, css) {
+      if (!err) { style = css; }
+      fs.readFile('css/messages.css', "utf-8", function (err, css) {
+        if (!err) { style += '\n' + css; }
+        displayAsHtml(thread, style, type);
+      });
+    });
+  } else {
+    displayAsHtml(thread, style, type);
+  }
 };
 
-var displayAsHtml = function(thread, type) {
+var displayAsHtml = function(thread, style, type) {
   var data = {
     title: 'Cynthia & Tobias',
     from: thread.from,
     to: thread.to,
-    messages: thread.messages
+    messages: thread.messages,
+    style: style
   };
 
   handlebars.registerHelper('eachlimited', function(context, options) {

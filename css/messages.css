@@ -1,5 +1,18 @@
+.serif {
+  font-family: Georgia, Times, serif;
+}
+.sans-serif {
+  font-family: Helvetica, Calibri, sans-serif;
+}
 body {
+  font-family: Helvetica, Calibri, sans-serif;
   background-color: #f0f0f0;
+}
+.container {
+  margin: 0;
+  max-width: 100%;
+  padding: 0;
+  width: auto;
 }
 .page-header {
   border-bottom-color: #ddd;

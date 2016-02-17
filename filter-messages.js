@@ -11,7 +11,7 @@ var emojify = require('./emojify.js').emojify;
 // original=47474 messages=13893 censored=422 oor=31410 empty=1749
 
 var argv = require('optimist')
-      .usage('Usage: $0 -i [threads.json] -n [thred_name] -f [from] -t [to] -m [mild censor: true || false]')
+      .usage('Usage: $0 -i [threads.json] -n [thred_name] -f [from] -t [to] -c [censor: true || false] -m [mild censor: true || false]')
       .demand([ 'i', 'n']).argv;
 
 var input = argv.i;
@@ -48,7 +48,7 @@ var compareMessages = function(a, b) {
   return 0;
 };
 
-var filterMessages = function(messages, from, to, mildCensor, sort) {
+var filterMessages = function(messages, from, to, doCensor, mildCensor, sort) {
   var accepted = [];
   var censored = [];
   var emojisNotFound = [];
@@ -72,7 +72,7 @@ var filterMessages = function(messages, from, to, mildCensor, sort) {
           });
           var censoredText = censor(message.text);
           if (censoredText !== message.text) {
-            if (mildCensor) {
+            if (!doCensor || mildCensor) {
               message.text = censoredText;
               accepted.push(message);
             } else {
@@ -104,7 +104,7 @@ var filterMessages = function(messages, from, to, mildCensor, sort) {
   };
 };
 
-var filterThreads = function(threads, threadName, from, to, mildCensor) {
+var filterThreads = function(threads, threadName, from, to, doCensor, mildCensor) {
   var accepted = [];
   var censored = [];
   var emojisNotFound = [];
@@ -112,7 +112,7 @@ var filterThreads = function(threads, threadName, from, to, mildCensor) {
   var empty = 0;
   var outOfRange = 0;
 
-  var result = filterMessages(firstMails.messages, from, to, true, false);
+  var result = filterMessages(firstMails.messages, from, to, doCensor, true, false);
   accepted.push.apply(accepted, result.messages);
   censored.push.apply(censored, result.censored);
   result.emojisNotFound.forEach(function(hex) {
@@ -129,7 +129,7 @@ var filterThreads = function(threads, threadName, from, to, mildCensor) {
     for (var t=0; t<threads.length; t++) {
       var thread = threads[t];
       if (threadName === thread.users) {
-        result = filterMessages(thread.messages.concat(), from, to, mildCensor, false);
+        result = filterMessages(thread.messages.concat(), from, to, doCensor, mildCensor, false);
         accepted.push.apply(accepted, result.messages);
         censored.push.apply(censored, result.censored);
         result.emojisNotFound.forEach(function(hex) {
@@ -156,10 +156,11 @@ var filterThreads = function(threads, threadName, from, to, mildCensor) {
   };
 };
 
-var filterData = function(data, threadName, from, to, mildCensor) {
+var filterData = function(data, threadName, from, to, doCensor, mildCensor) {
 
   from = from ? new Moment(from) : undefined;
   to = to ? new Moment(to) : undefined;
+  doCensor = doCensor || true;
   mildCensor = mildCensor || false;
 
   var result = {
@@ -173,9 +174,9 @@ var filterData = function(data, threadName, from, to, mildCensor) {
 
   if (data) {
     if (data.messages || (Array.isArray(data) && data.length > 0 && data[0].text)) {
-      result = filterMessages(data.messages || data, from, to, mildCensor);
+      result = filterMessages(data.messages || data, from, to, doCensor, mildCensor);
     } else if (Array.isArray(data) && data.length > 0 && data[0].messages) {
-      result = filterThreads(data, threadName, from, to, mildCensor);
+      result = filterThreads(data, threadName, from, to, doCensor, mildCensor);
     }
   }
 
@@ -200,7 +201,7 @@ var receiveFile = function(err, data) {
         process.exit();
     }
 
-    var result = filterData(JSON.parse(data), argv.n, argv.f, argv.t, argv.m);
+    var result = filterData(JSON.parse(data), argv.n, argv.f, argv.t, argv.c, argv.m);
 
     fs.writeFile('emojis-not-found.json', JSON.stringify(result.emojisNotFound));
 
